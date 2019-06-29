@@ -33,11 +33,14 @@ class LoginScreenState extends State<LoginScreen> {
   }
 
   Widget passwordField() {
-    return TextFormField(
-      obscureText: true,
-      decoration: InputDecoration(
-        labelText: 'Password',
-        hintText: 'Escribe tu password...',
+    return Container(
+      margin: EdgeInsets.only(bottom: 25.0),
+      child: TextFormField(
+        obscureText: true,
+        decoration: InputDecoration(
+          labelText: 'Password',
+          hintText: 'Escribe tu password...',
+        ),
       ),
     );
   }
