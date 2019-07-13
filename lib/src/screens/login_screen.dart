@@ -9,6 +9,8 @@ class LoginScreen extends StatefulWidget {
 class LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
 
+  String email = '';
+  String password = ''; 
 
   Widget build(context) {
     return Container(
@@ -34,12 +36,17 @@ class LoginScreenState extends State<LoginScreen> {
         labelText: 'Email address',
         hintText: 'Ej. you@example.com',
       ),
-      validator: (value) {
+      validator: (String value) {
         // return null if valid
-        if ( !value.contains('@')) {
+        if (!value.contains('@')) {
           return 'Por favor captura un email valido.';
+        } else {
+          return null;
         }
         // otherwise string with error mmessage if invalid
+      },
+      onSaved: (String value) {
+        this.email = value;
       },
     );
   }
@@ -51,20 +58,30 @@ class LoginScreenState extends State<LoginScreen> {
         labelText: 'Password',
         hintText: 'Escribe tu password...',
       ),
-      validator: (value){
+      validator: (String value) {
         if (value.length < 4) {
           return 'Password debe tener al menos 4 caracteres';
+        } else {
+          return null;
         }
+      },
+      onSaved: (String value) {
+        this.password = value;
       },
     );
   }
 
   Widget submitButton() {
     return RaisedButton(
-      color: Colors.blue,      
+      color: Colors.blue,
       child: Text('Submit'),
       onPressed: () {
-          print(formKey.currentState.validate());
+         if ( formKey.currentState.validate() )  {
+           /* El metodo save ejecuta todos los callbacks onSaved() de cada widget dentro del formulario */
+            formKey.currentState.save();
+            /* Tomar los valores y enviarlos a algun API */
+            print('Hora de enviar $email y $password a mi API!');
+         }
       },
     );
   }
